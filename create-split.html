@@ -78,42 +78,52 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="splitToken">
-                            <i class="fas fa-coins"></i>
-                            Payment Token
-                        </label>
-                         <div class="token-option active"
-     data-token="0x20c0000000000000000000000000000000000001">
-    <div class="token-icon">AlphaUSD</div>
-    <span>AlphaUsd</span>
-</div>
+                     <label for="splitToken">
+    <i class="fas fa-coins"></i>
+    Payment Token
+</label>
 
-<div class="token-option"
-     data-token="0x20c0000000000000000000000000000000000002">
-    <div class="token-icon">Betausd</div>
-    <span>BetaUsd</span>
-</div>
+<!-- ✅ REQUIRED WRAPPER -->
+<div class="token-selector">
 
-<div class="token-option"
-     data-token="0x20c0000000000000000000000000000000000003">
-    <div class="token-icon">ThetaUsd</div>
-    <span>ThetaUsd</span>
-</div>
-
-<div class="token-option" data-token="custom">
-    <div class="token-icon">
-        <i class="fas fa-edit"></i>
+    <div class="token-option active"
+         data-token="0x20c0000000000000000000000000000000000001">
+        <div class="token-icon">AlphaUSD</div>
+        <span>AlphaUsd</span>
     </div>
-    <span>Custom</span>
+
+    <div class="token-option"
+         data-token="0x20c0000000000000000000000000000000000002">
+        <div class="token-icon">BetaUSD</div>
+        <span>BetaUsd</span>
+    </div>
+
+    <div class="token-option"
+         data-token="0x20c0000000000000000000000000000000000003">
+        <div class="token-icon">ThetaUSD</div>
+        <span>ThetaUsd</span>
+    </div>
+
+    <div class="token-option" data-token="custom">
+        <div class="token-icon">
+            <i class="fas fa-edit"></i>
+        </div>
+        <span>Custom</span>
+    </div>
+
 </div>
+
+<!-- ✅ Custom token input (outside grid) -->
 <input
-  type="text"
-  id="customTokenAddress"
-  placeholder="0x..."
->
-                        <div class="form-hint">Select the token you'll be receiving payments in</div>
-                    </div>
-                    
+    type="text"
+    id="customTokenAddress"
+    placeholder="Enter custom ERC20 token address (0x...)"
+    style="margin-top:12px; display:none;"
+/>
+
+<div class="form-hint">
+    Select the token you'll be receiving payments in
+</div>                    
                     <div class="form-group">
                         <label for="splitDescription">
                             <i class="fas fa-align-left"></i>
@@ -130,10 +140,10 @@
             </div>
 
             <!-- Step 2: Add Members -->
-            <div class="wizard-step" id="step2">
-                <div class="step-header">
-                    <div class="step-number">2</div>
-                    <div class="step-info">
+                       <div class="wizard-actions">
+    <button class="btn-secondary" onclick="prevStep()">Previous</button>
+    <button class="btn-primary" onclick="validateAndGoToStep3()">Next: Review</button>
+</div>
                         <h3>Add Members</h3>
                         <p>Add team members and set their share percentages</p>
                     </div>
@@ -191,11 +201,14 @@
             </div>
 
             <!-- Step 3: Review & Create -->
-            <div class="wizard-step" id="step3">
-                <div class="step-header">
-                    <div class="step-number">3</div>
-                    <div class="step-info">
-                        <h3>Review & Create</h3>
+                         <div class="wizard-actions">
+    <button class="btn-secondary" onclick="goToPrevStep()">Previous</button>
+    <button class="btn-primary btn-create" id="createSplitBtn">
+        <i class="fas fa-rocket"></i>
+        Create Split Contract
+    </button>
+</div>
+                         <h3>Review & Create</h3>
                         <p>Review your split configuration and deploy</p>
                     </div>
                 </div>
@@ -369,7 +382,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 <script src="js/script.js"></script>
-    <script src="js/script.js"></script>
-    <script src="js/create-split.js"></script>
+<script src="js/create-split.js"></script>
 </body>
 </html>

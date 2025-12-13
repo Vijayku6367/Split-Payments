@@ -1,8 +1,7 @@
 // Create Split functionality
 let splitData = {
     name: '',
--   token: 'USDC',
-+   token: '',
+    token: '',
     description: '',
     members: [],
     autoDistribute: true,
@@ -14,6 +13,17 @@ const totalSteps = 3;
 document.addEventListener('DOMContentLoaded', () => {
     initCreateSplit();
     updateReview();
+    updateStepNumbers(); // ✅ Step numbers initialize करो
+    
+    // ✅ Create button event listener
+    const createBtn = document.getElementById('createSplitBtn');
+    if (createBtn) {
+        createBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("🚀 Create Split button clicked");
+            createSplitContract();
+        });
+    }
 });
 
 function initCreateSplit() {
@@ -26,17 +36,18 @@ function initCreateSplit() {
             updateReview();
         });
     });
-     // ✅ Custom token address input FIX
-const customTokenInput = document.getElementById('customTokenAddress');
-if (customTokenInput) {
-    customTokenInput.addEventListener('input', (e) => {
-        const value = e.target.value.trim();
-        if (value.startsWith('0x') && value.length === 42) {
-            splitData.token = value;
-            updateReview();
-        }
-    });
-}
+    
+    // ✅ Custom token address input FIX
+    const customTokenInput = document.getElementById('customTokenAddress');
+    if (customTokenInput) {
+        customTokenInput.addEventListener('input', (e) => {
+            const value = e.target.value.trim();
+            if (value.startsWith('0x') && value.length === 42) {
+                splitData.token = value;
+                updateReview();
+            }
+        });
+    }
     
     // Auto distribute toggle
     const autoDistribute = document.getElementById('autoDistribute');
@@ -85,17 +96,14 @@ if (customTokenInput) {
         });
     }
     
-    // Create split button
-    const createBtn = document.getElementById('createSplitBtn');
-    if (createBtn) {
-        createBtn.addEventListener('click', createSplitContract);
-    }
-    
     // Terms agreement
     const termsAgree = document.getElementById('termsAgree');
     if (termsAgree) {
         termsAgree.addEventListener('change', () => {
-            createBtn.disabled = !termsAgree.checked;
+            const createBtn = document.getElementById('createSplitBtn');
+            if (createBtn) {
+                createBtn.disabled = !termsAgree.checked;
+            }
         });
     }
     
@@ -273,61 +281,80 @@ function updateSharesTotal() {
     }
 }
 
-function nextStep() {
-    if (currentStep < totalSteps) {
-        // Validate current step
-        if (!validateStep(currentStep)) {
-            return;
-        }
-        
-        document.getElementById(`step${currentStep}`).classList.remove('active');
-        currentStep++;
-        document.getElementById(`step${currentStep}`).classList.add('active');
-        
-        // Update step numbers
-        updateStepNumbers();
+// ==================== STEP NAVIGATION FUNCTIONS ====================
+
+// Step 1 → Step 2
+function validateAndGoToStep2() {
+    console.log("✅ Step 1 → Step 2");
+    
+    // Step 1 validation
+    if (!splitData.name.trim()) {
+        showNotification('Please enter a split name', 'error');
+        return false;
     }
+    
+    if (!splitData.token) {
+        showNotification('Please select a payment token', 'error');
+        return false;
+    }
+    
+    console.log("✅ Step 1 validation passed");
+    
+    // Move to Step 2
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+    currentStep = 2;
+    updateStepNumbers();
+    
+    return true;
 }
 
-function prevStep() {
+// Step 2 → Step 3
+function validateAndGoToStep3() {
+    console.log("✅ Step 2 → Step 3");
+    console.log("Members:", splitData.members.length, "Total shares:", splitData.totalShares);
+    
+    // Step 2 validation
+    if (splitData.members.length === 0) {
+        showNotification('Please add at least one member', 'error');
+        return false;
+    }
+    
+    if (splitData.totalShares !== 100) {
+        showNotification(`Total shares must be exactly 100% (currently ${splitData.totalShares}%)`, 'error');
+        return false;
+    }
+    
+    console.log("✅ Step 2 validation passed");
+    
+    // Move to Step 3
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step3').classList.add('active');
+    currentStep = 3;
+    updateStepNumbers();
+    
+    // Update review with latest data
+    updateReview();
+    
+    return true;
+}
+
+// Previous button (all steps)
+function goToPrevStep() {
+    console.log("⬅️ Previous clicked, current step:", currentStep);
+    
     if (currentStep > 1) {
         document.getElementById(`step${currentStep}`).classList.remove('active');
         currentStep--;
         document.getElementById(`step${currentStep}`).classList.add('active');
         updateStepNumbers();
-    }
-}
-
-function validateStep(step) {
-    switch (step) {
-        case 1:
-            if (!splitData.name.trim()) {
-                showNotification('Please enter a split name', 'error');
-                return false;
-            }
-            if (!splitData.token) {
-                showNotification('Please select a payment token', 'error');
-                return false;
-            }
-            return true;
-            
-        case 2:
-            if (splitData.members.length === 0) {
-                showNotification('Please add at least one member', 'error');
-                return false;
-            }
-            if (splitData.totalShares !== 100) {
-                showNotification(`Total shares must be 100% (currently ${splitData.totalShares}%)`, 'error');
-                return false;
-            }
-            return true;
-            
-        default:
-            return true;
+        console.log("⬅️ Moved to Step", currentStep);
     }
 }
 
 function updateStepNumbers() {
+    console.log("Updating step numbers, current step:", currentStep);
+    
     document.querySelectorAll('.step-number').forEach((number, index) => {
         const stepNum = index + 1;
         if (stepNum < currentStep) {
@@ -345,12 +372,16 @@ function updateStepNumbers() {
 
 function updateReview() {
     // Update split details
-    document.getElementById('reviewName').textContent = splitData.name || '-';
-    document.getElementById('reviewToken').textContent = splitData.token;
-    document.getElementById('reviewAuto').textContent = splitData.autoDistribute ? 'Yes' : 'No';
+    const reviewName = document.getElementById('reviewName');
+    const reviewToken = document.getElementById('reviewToken');
+    const reviewAuto = document.getElementById('reviewAuto');
+    const reviewMembers = document.getElementById('reviewMembers');
+    
+    if (reviewName) reviewName.textContent = splitData.name || '-';
+    if (reviewToken) reviewToken.textContent = splitData.token || '-';
+    if (reviewAuto) reviewAuto.textContent = splitData.autoDistribute ? 'Yes' : 'No';
     
     // Update members review
-    const reviewMembers = document.getElementById('reviewMembers');
     if (reviewMembers) {
         if (splitData.members.length === 0) {
             reviewMembers.innerHTML = '<div class="empty-review">No members added</div>';
@@ -366,12 +397,27 @@ function updateReview() {
 }
 
 async function createSplitContract() {
+    console.log("🚀 Creating split contract...");
+    
     if (!window.SplitPay?.state?.connected) {
         showNotification('Please connect your wallet first', 'error');
         return;
     }
     
-    if (!validateStep(1) || !validateStep(2)) {
+    // Final validation
+    if (!splitData.name.trim() || !splitData.token) {
+        showNotification('Please fill all required fields', 'error');
+        return;
+    }
+    
+    if (splitData.members.length === 0 || splitData.totalShares !== 100) {
+        showNotification('Please add members with total shares = 100%', 'error');
+        return;
+    }
+    
+    const termsAgree = document.getElementById('termsAgree');
+    if (termsAgree && !termsAgree.checked) {
+        showNotification('Please agree to the terms of service', 'error');
         return;
     }
     
@@ -382,11 +428,20 @@ async function createSplitContract() {
         createBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deploying...';
         createBtn.disabled = true;
         
-        // Prepare members data
-        - const shares = splitData.members.map(m => Math.floor(m.share * 100));
-+ const shares = splitData.members.map(m => Math.floor(m.share));
-        // Call the create split function
-        await window.SplitPay.createSplitContract(
+        console.log("📋 Preparing contract data...");
+        
+        // ✅ FIX: Prepare members data correctly
+        const members = splitData.members.map(m => m.address);
+        const shares = splitData.members.map(m => Math.floor(m.share));
+        
+        console.log("Members:", members);
+        console.log("Shares:", shares);
+        console.log("Token:", splitData.token);
+        console.log("Auto-distribute:", splitData.autoDistribute);
+        
+        // ✅ Call the real SplitFactory.createSplitter() function
+        console.log("📞 Calling SplitPay.createSplitContract...");
+        const result = await window.SplitPay.createSplitContract(
             splitData.name,
             members,
             shares,
@@ -394,36 +449,44 @@ async function createSplitContract() {
             splitData.autoDistribute
         );
         
-        // Simulate contract deployment (in production, this would be real)
-        setTimeout(() => {
-            // Show success step
-            document.getElementById('step3').classList.remove('active');
-            document.getElementById('successStep').classList.add('active');
-            
-            // Generate mock contract address and transaction hash
-            const mockAddress = `0x${Array.from({length: 40}, () => 
-                Math.floor(Math.random() * 16).toString(16)).join('')}`;
-            const mockHash = `0x${Array.from({length: 64}, () => 
-                Math.floor(Math.random() * 16).toString(16)).join('')}`;
-            
-            document.getElementById('contractAddress').textContent = mockAddress;
-            document.getElementById('transactionHash').textContent = mockHash;
-            
-            showNotification('Split contract deployed successfully!');
-        }, 2000);
+        console.log("✅ Contract deployment result:", result);
+        
+        // Show success step
+        document.getElementById('step3').classList.remove('active');
+        document.getElementById('successStep').classList.add('active');
+        
+        // ✅ Show real transaction hash and contract address
+        if (result && (result.transactionHash || result.contractAddress)) {
+            if (result.contractAddress) {
+                document.getElementById('contractAddress').textContent = result.contractAddress;
+            }
+            if (result.transactionHash) {
+                document.getElementById('transactionHash').textContent = result.transactionHash;
+            }
+            showNotification('✅ Split contract deployed successfully!');
+        } else {
+            // Fallback if result format is different
+            document.getElementById('contractAddress').textContent = result?.contractAddress || '0x...';
+            document.getElementById('transactionHash').textContent = result?.transactionHash || '0x...';
+            showNotification('✅ Contract deployment initiated!');
+        }
         
     } catch (error) {
-        console.error('Failed to create split:', error);
-        showNotification('Failed to create split contract', 'error');
+        console.error('❌ Failed to create split:', error);
+        showNotification('Failed to create split contract: ' + (error.message || error), 'error');
         
         // Reset button
         const createBtn = document.getElementById('createSplitBtn');
-        createBtn.innerHTML = originalText;
-        createBtn.disabled = false;
+        if (createBtn) {
+            createBtn.innerHTML = originalText;
+            createBtn.disabled = false;
+        }
     }
 }
 
 function loadTemplate(template) {
+    console.log("📋 Loading template:", template);
+    
     // Clear existing members
     splitData.members = [];
     splitData.totalShares = 0;
@@ -433,10 +496,10 @@ function loadTemplate(template) {
             splitData.name = 'Core Team Split';
             splitData.description = 'Monthly team salary distribution';
             splitData.members = [
-                { address: '0x71C7656EC7ab88b098defB751B7401B5f6d8976F', share: 25, id: 1 },
-                { address: '0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B', share: 25, id: 2 },
-                { address: '0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db', share: 25, id: 3 },
-                { address: '0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB', share: 25, id: 4 }
+                { address: '0x71C7656EC7ab88b098defB751B7401B5f6d8976F', share: 25, id: Date.now() + 1 },
+                { address: '0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B', share: 25, id: Date.now() + 2 },
+                { address: '0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db', share: 25, id: Date.now() + 3 },
+                { address: '0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB', share: 25, id: Date.now() + 4 }
             ];
             break;
             
@@ -444,9 +507,9 @@ function loadTemplate(template) {
             splitData.name = 'Creator Revenue Split';
             splitData.description = 'YouTube-style revenue sharing';
             splitData.members = [
-                { address: '0x617F2E2fD72FD9D5503197092aC168c91465E7f2', share: 60, id: 1 },
-                { address: '0x17F6AD8Ef982297579C203069C1DbfFE4348c372', share: 25, id: 2 },
-                { address: '0x5c6B0f7Bf3E7ce046039Bd8FABdfD3f9F5021678', share: 15, id: 3 }
+                { address: '0x617F2E2fD72FD9D5503197092aC168c91465E7f2', share: 60, id: Date.now() + 1 },
+                { address: '0x17F6AD8Ef982297579C203069C1DbfFE4348c372', share: 25, id: Date.now() + 2 },
+                { address: '0x5c6B0f7Bf3E7ce046039Bd8FABdfD3f9F5021678', share: 15, id: Date.now() + 3 }
             ];
             break;
             
@@ -454,10 +517,10 @@ function loadTemplate(template) {
             splitData.name = 'DAO Treasury Distribution';
             splitData.description = 'Monthly DAO treasury allocation';
             splitData.members = [
-                { address: '0x03C6FcED478cBbC9a4FAB34eF9f40767739D1Ff7', share: 40, id: 1 },
-                { address: '0x1aE0EA34a72D944a8C7603FfB3eC30a6669E454C', share: 30, id: 2 },
-                { address: '0x0A098Eda01Ce92ff4A4CCb7A4fFFb5A43EBC70DC', share: 20, id: 3 },
-                { address: '0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c', share: 10, id: 4 }
+                { address: '0x03C6FcED478cBbC9a4FAB34eF9f40767739D1Ff7', share: 40, id: Date.now() + 1 },
+                { address: '0x1aE0EA34a72D944a8C7603FfB3eC30a6669E454C', share: 30, id: Date.now() + 2 },
+                { address: '0x0A098Eda01Ce92ff4A4CCb7A4fFFb5A43EBC70DC', share: 20, id: Date.now() + 3 },
+                { address: '0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c', share: 10, id: Date.now() + 4 }
             ];
             break;
             
@@ -465,9 +528,9 @@ function loadTemplate(template) {
             splitData.name = 'Freelance Project Split';
             splitData.description = 'Client project payment distribution';
             splitData.members = [
-                { address: '0x14723A09ACff6D2A60DcdF7aA4AFf308FDDC160C', share: 40, id: 1 },
-                { address: '0x4B0897b0513fdC7C541B6d9D7E929C4e5364D2dB', share: 35, id: 2 },
-                { address: '0x583031D1113aD414F02576BD6afaBfb302140225', share: 25, id: 3 }
+                { address: '0x14723A09ACff6D2A60DcdF7aA4AFf308FDDC160C', share: 40, id: Date.now() + 1 },
+                { address: '0x4B0897b0513fdC7C541B6d9D7E929C4e5364D2dB', share: 35, id: Date.now() + 2 },
+                { address: '0x583031D1113aD414F02576BD6afaBfb302140225', share: 25, id: Date.now() + 3 }
             ];
             break;
     }
@@ -476,8 +539,12 @@ function loadTemplate(template) {
     splitData.totalShares = splitData.members.reduce((sum, member) => sum + member.share, 0);
     
     // Update UI
-    document.getElementById('splitName').value = splitData.name;
-    document.getElementById('splitDescription').value = splitData.description;
+    const splitNameInput = document.getElementById('splitName');
+    const splitDescInput = document.getElementById('splitDescription');
+    
+    if (splitNameInput) splitNameInput.value = splitData.name;
+    if (splitDescInput) splitDescInput.value = splitData.description;
+    
     updateMembersList();
     updateSharesTotal();
     updateReview();
@@ -495,14 +562,19 @@ function copyToClipboard(elementId) {
             })
             .catch(err => {
                 console.error('Failed to copy: ', err);
+                showNotification('Failed to copy to clipboard', 'error');
             });
     }
 }
 
 function viewOnExplorer() {
     const address = document.getElementById('contractAddress').textContent;
-    const explorerUrl = `https://explore.tempo.xyz/address/${address}`;
-    window.open(explorerUrl, '_blank');
+    if (address && address !== '0x...') {
+        const explorerUrl = `https://explore.tempo.xyz/address/${address}`;
+        window.open(explorerUrl, '_blank');
+    } else {
+        showNotification('No contract address available', 'error');
+    }
 }
 
 function goToDashboard() {
@@ -515,6 +587,8 @@ function formatAddress(address) {
 }
 
 function showNotification(message, type = 'success') {
+    console.log(`📢 Notification [${type}]:`, message);
+    
     // Use the notification function from main script
     if (window.SplitPay?.showNotification) {
         window.SplitPay.showNotification(message, type);
@@ -1293,3 +1367,5 @@ textarea {
 const styleSheet = document.createElement('style');
 styleSheet.textContent = createSplitStyles;
 document.head.appendChild(styleSheet);
+
+console.log("✅ create-split.js loaded successfully!");
