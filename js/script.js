@@ -1,625 +1,262 @@
-// js/script.js mein update karo
+// ================= CONFIG =================
+
 const CONTRACT_ADDRESSES = {
   SplitFactory: "0xB267dd7640e1818914076da746495d30457338fC",
   Treasury: "0x70c0E3f9aFBD3C17Dd367625745A465E25F2259D"
 };
-// Tempo Blockchain Configuration
+
 const TEMPO_CONFIG = {
-    chainId: '42429',
-    chainName: 'Tempo Testnet (Andantino)',
-    nativeCurrency: {
-        name: 'USD',
-        symbol: 'USD',
-        decimals: 6
-    },
-    rpcUrls: ['https://rpc.testnet.tempo.xyz'],
-    blockExplorerUrls: ['https://explore.tempo.xyz']
+  chainId: '42429',
+  chainName: 'Tempo Testnet (Andantino)',
+  nativeCurrency: {
+    name: 'USD',
+    symbol: 'USD',
+    decimals: 6
+  },
+  rpcUrls: ['https://rpc.testnet.tempo.xyz'],
+  blockExplorerUrls: ['https://explore.tempo.xyz']
 };
 
-// Contract ABIs (Simplified for demo)
-const CONTRACT_ABIS = {
-Splitter: [
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_owner", "type": "address" },
-      { "internalType": "string", "name": "_name", "type": "string" },
-      { "internalType": "address", "name": "_token", "type": "address" },
-      { "internalType": "address[]", "name": "_members", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "_shares", "type": "uint256[]" },
-      { "internalType": "bool", "name": "_autoDistribute", "type": "bool" }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      { "indexed": true, "internalType": "address", "name": "member", "type": "address" },
-      { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
-      { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
-    ],
-    "name": "DistributionCompleted",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      { "indexed": true, "internalType": "address", "name": "payer", "type": "address" },
-      { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
-      { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
-    ],
-    "name": "PaymentReceived",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      { "indexed": false, "internalType": "address[]", "name": "newMembers", "type": "address[]" },
-      { "indexed": false, "internalType": "uint256[]", "name": "newShares", "type": "uint256[]" },
-      { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
-    ],
-    "name": "SharesUpdated",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "autoDistribute",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "distribute",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getContractBalance",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getMembers",
-    "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getPaymentHistory",
-    "outputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "amount", "type": "uint256" },
-          { "internalType": "address", "name": "payer", "type": "address" },
-          { "internalType": "uint256", "name": "timestamp", "type": "uint256" },
-          { "internalType": "bool", "name": "distributed", "type": "bool" }
-        ],
-        "internalType": "struct Splitter.Payment[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }],
-    "name": "receivePayment",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address[]", "name": "newMembers", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "newShares", "type": "uint256[]" }
-    ],
-    "name": "updateShares",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
- ],
-  SplitFactory: [
-  {
-    "anonymous": false,
-    "inputs": [
-      { "indexed": true, "internalType": "address", "name": "creator", "type": "address" },
-      { "indexed": false, "internalType": "address", "name": "splitterAddress", "type": "address" },
-      { "indexed": false, "internalType": "string", "name": "name", "type": "string" },
-      { "indexed": false, "internalType": "address", "name": "token", "type": "address" },
-      { "indexed": false, "internalType": "address[]", "name": "members", "type": "address[]" },
-      { "indexed": false, "internalType": "uint256[]", "name": "shares", "type": "uint256[]" }
-    ],
-    "name": "SplitterCreated",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "", "type": "uint256" }
-    ],
-    "name": "allSplitters",
-    "outputs": [
-      { "internalType": "address", "name": "", "type": "address" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "string", "name": "name", "type": "string" },
-      { "internalType": "address", "name": "token", "type": "address" },
-      { "internalType": "address[]", "name": "members", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "shares", "type": "uint256[]" },
-      { "internalType": "bool", "name": "autoDistribute", "type": "bool" }
-    ],
-    "name": "createSplitter",
-    "outputs": [
-      { "internalType": "address", "name": "", "type": "address" }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getAllSplitters",
-    "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "user", "type": "address" }
-    ],
-    "name": "getUserSplitters",
-    "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "", "type": "address" },
-      { "internalType": "uint256", "name": "", "type": "uint256" }
-    ],
-    "name": "userSplitters",
-    "outputs": [
-      { "internalType": "address", "name": "", "type": "address" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }
-],
-};
+// ================= GLOBAL STATE =================
 
-// Global State
 let state = {
-    connected: false,
-    walletAddress: null,
-    chainId: null,
-    provider: null,
-    signer: null,
-    currentPage: 'home'
+  connected: false,
+  walletAddress: null,
+  chainId: null,
+  provider: null,
+  signer: null,
+  currentPage: 'home'
 };
 
-// Line 15 ke baad ye add karo:
+// ================= DOM ELEMENTS (SINGLE SOURCE) =================
+
 const elements = {
-    connectWallet: document.getElementById('connectWallet'),
-    walletModal: document.getElementById('walletModal'),
-    closeModal: document.getElementById('closeModal'),
-    metamaskBtn: document.getElementById('metamaskBtn'),
-    walletConnectBtn: document.getElementById('walletConnectBtn'),
-    coinbaseBtn: document.getElementById('coinbaseBtn'),
-    mobileMenuBtn: document.getElementById('mobileMenuBtn'),
-    navMenu: document.getElementById('navMenu'),
-    createSplitBtn: document.getElementById('createSplitBtn'),
-    watchDemo: document.getElementById('watchDemo'),
-    getStartedBtn: document.getElementById('getStartedBtn'),
-    donutChart: document.getElementById('donutChart')
+  connectWallet: document.getElementById('connectWallet'),
+  walletModal: document.getElementById('walletModal'),
+  closeModal: document.getElementById('closeModal'),
+  metamaskBtn: document.getElementById('metamaskBtn'),
+  walletConnectBtn: document.getElementById('walletConnectBtn'),
+  coinbaseBtn: document.getElementById('coinbaseBtn'),
+  mobileMenuBtn: document.getElementById('mobileMenuBtn'),
+  navMenu: document.getElementById('navMenu'),
+  createSplitBtn: document.getElementById('createSplitBtn'),
+  watchDemo: document.getElementById('watchDemo'),
+  getStartedBtn: document.getElementById('getStartedBtn'),
+  donutChart: document.getElementById('donutChart')
 };
 
-// Agar koi element nahi hai toh error handle karo
-Object.keys(elements).forEach(key => {
-    if (!elements[key] && key !== 'donutChart') {
-        console.warn(`Element ${key} not found`);
-    }
-});
-// DOM Elements
-const elements = {
-    connectWallet: document.getElementById('connectWallet'),
-    walletModal: document.getElementById('walletModal'),
-    closeModal: document.getElementById('closeModal'),
-    metamaskBtn: document.getElementById('metamaskBtn'),
-    walletConnectBtn: document.getElementById('walletConnectBtn'),
-    coinbaseBtn: document.getElementById('coinbaseBtn'),
-    mobileMenuBtn: document.getElementById('mobileMenuBtn'),
-    navMenu: document.getElementById('navMenu'),
-    createSplitBtn: document.getElementById('createSplitBtn'),
-    watchDemo: document.getElementById('watchDemo'),
-    getStartedBtn: document.getElementById('getStartedBtn'),
-    donutChart: document.getElementById('donutChart')
-};
+// ================= INIT =================
 
-// Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    initEventListeners();
-    initAnimations();
-    checkWalletConnection();
-    updatePageState();
+  initEventListeners();
+  initAnimations();
+  checkWalletConnection();
+  updatePageState();
 });
 
-// Event Listeners
+// ================= EVENT LISTENERS =================
+
 function initEventListeners() {
-    // Wallet Connection
-    elements.connectWallet.addEventListener('click', () => {
-        elements.walletModal.style.display = 'flex';
-    });
-    
-    elements.closeModal.addEventListener('click', () => {
-        elements.walletModal.style.display = 'none';
-    });
-    
-    elements.metamaskBtn.addEventListener('click', connectMetaMask);
-    elements.walletConnectBtn.addEventListener('click', connectWalletConnect);
-    elements.coinbaseBtn.addEventListener('click', connectCoinbase);
-    
-    // Mobile Menu
-    elements.mobileMenuBtn.addEventListener('click', () => {
-        elements.navMenu.classList.toggle('active');
-    });
-    
-    // Navigation
-    elements.createSplitBtn.addEventListener('click', () => {
-        window.location.href = 'create-split.html';
-    });
-    
-    elements.watchDemo.addEventListener('click', () => {
-        alert('Demo video would play here');
-    });
-    
-    elements.getStartedBtn.addEventListener('click', () => {
-        window.location.href = 'create-split.html';
-    });
-    
-    // Close modal on outside click
+
+  if (elements.connectWallet && elements.walletModal) {
+    elements.connectWallet.onclick = () => {
+      elements.walletModal.style.display = 'flex';
+    };
+  }
+
+  if (elements.closeModal && elements.walletModal) {
+    elements.closeModal.onclick = () => {
+      elements.walletModal.style.display = 'none';
+    };
+  }
+
+  if (elements.metamaskBtn) {
+    elements.metamaskBtn.onclick = connectMetaMask;
+  }
+
+  if (elements.walletConnectBtn) {
+    elements.walletConnectBtn.onclick = () => alert('WalletConnect coming soon');
+  }
+
+  if (elements.coinbaseBtn) {
+    elements.coinbaseBtn.onclick = connectCoinbase;
+  }
+
+  if (elements.mobileMenuBtn && elements.navMenu) {
+    elements.mobileMenuBtn.onclick = () => {
+      elements.navMenu.classList.toggle('active');
+    };
+  }
+
+  if (elements.createSplitBtn) {
+    elements.createSplitBtn.onclick = () => {
+      window.location.href = 'create-split.html';
+    };
+  }
+
+  if (elements.getStartedBtn) {
+    elements.getStartedBtn.onclick = () => {
+      window.location.href = 'create-split.html';
+    };
+  }
+
+  if (elements.watchDemo) {
+    elements.watchDemo.onclick = () => {
+      alert('Demo video would play here');
+    };
+  }
+
+  if (elements.walletModal) {
     window.addEventListener('click', (e) => {
-        if (e.target === elements.walletModal) {
-            elements.walletModal.style.display = 'none';
-        }
+      if (e.target === elements.walletModal) {
+        elements.walletModal.style.display = 'none';
+      }
     });
-    
-    // Close mobile menu on link click
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            elements.navMenu.classList.remove('active');
-        });
-    });
+  }
+
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.onclick = () => {
+      if (elements.navMenu) {
+        elements.navMenu.classList.remove('active');
+      }
+    };
+  });
 }
 
-// Animations
+// ================= ANIMATIONS =================
+
 function initAnimations() {
-    // Chart rotation
-    if (elements.donutChart) {
-        animateDonutChart();
-    }
-    
-    // Floating cards
-    animateFloatingCards();
-    
-    // Background particles
-    createParticles();
+  if (elements.donutChart) animateDonutChart();
+  animateFloatingCards();
+  createParticles();
 }
 
 function animateDonutChart() {
-    let rotation = 0;
-    setInterval(() => {
-        rotation += 0.1;
-        elements.donutChart.style.transform = `rotate(${rotation}deg)`;
-    }, 50);
+  let rotation = 0;
+  setInterval(() => {
+    rotation += 0.1;
+    elements.donutChart.style.transform = `rotate(${rotation}deg)`;
+  }, 50);
 }
 
 function animateFloatingCards() {
-    const cards = document.querySelectorAll('.floating-card');
-    cards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.5}s`;
-    });
+  document.querySelectorAll('.floating-card').forEach((card, i) => {
+    card.style.animationDelay = `${i * 0.5}s`;
+  });
 }
 
 function createParticles() {
-    const container = document.querySelector('.background-elements');
-    if (!container) return;
-    
-    for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        
-        // Random properties
-        const size = Math.random() * 3 + 1;
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        const duration = Math.random() * 30 + 20;
-        const delay = Math.random() * 20;
-        
-        // Random color
-        const colors = ['#FFD700', '#00D4AA', '#8A2BE2', '#FF6B6B'];
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        
-        particle.style.cssText = `
-            width: ${size}px;
-            height: ${size}px;
-            background: ${color};
-            top: ${y}%;
-            left: ${x}%;
-            animation-duration: ${duration}s;
-            animation-delay: ${delay}s;
-        `;
-        
-        container.appendChild(particle);
-    }
+  const container = document.querySelector('.background-elements');
+  if (!container) return;
+
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+      width:${Math.random()*3+1}px;
+      height:${Math.random()*3+1}px;
+      top:${Math.random()*100}%;
+      left:${Math.random()*100}%;
+      animation-duration:${Math.random()*30+20}s;
+    `;
+    container.appendChild(p);
+  }
 }
 
-// Wallet Connection Functions
+// ================= WALLET =================
+
 async function connectMetaMask() {
-    if (typeof window.ethereum !== 'undefined') {
-        try {
-            // Request account access
-            const accounts = await window.ethereum.request({ 
-                method: 'eth_requestAccounts' 
-            });
-            
-            // Check if connected to Tempo
-            await switchToTempoNetwork();
-            
-            // Update state
-            state.walletAddress = accounts[0];
-            state.connected = true;
-            state.provider = new ethers.providers.Web3Provider(window.ethereum);
-            state.signer = state.provider.getSigner();
-            
-            updateWalletUI();
-            elements.walletModal.style.display = 'none';
-            
-            console.log('Connected with MetaMask:', accounts[0]);
-        } catch (error) {
-            console.error('MetaMask connection error:', error);
-            alert('Failed to connect with MetaMask');
-        }
-    } else {
-        alert('Please install MetaMask to connect');
-    }
+  if (!window.ethereum || typeof ethers === 'undefined') {
+    alert('MetaMask or ethers not found');
+    return;
+  }
+
+  try {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    await switchToTempoNetwork();
+
+    state.provider = new ethers.providers.Web3Provider(window.ethereum);
+    state.signer = state.provider.getSigner();
+    state.walletAddress = accounts[0];
+    state.connected = true;
+
+    updateWalletUI();
+    if (elements.walletModal) elements.walletModal.style.display = 'none';
+
+  } catch (e) {
+    console.error(e);
+    alert('Wallet connection failed');
+  }
 }
 
 async function switchToTempoNetwork() {
-    try {
-        await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: `0x${Number(TEMPO_CONFIG.chainId).toString(16)}` }]
-        });
-    } catch (switchError) {
-        // If network doesn't exist, add it
-        if (switchError.code === 4902) {
-            try {
-                await window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [{
-                        chainId: `0x${Number(TEMPO_CONFIG.chainId).toString(16)}`,
-                        chainName: TEMPO_CONFIG.chainName,
-                        nativeCurrency: TEMPO_CONFIG.nativeCurrency,
-                        rpcUrls: TEMPO_CONFIG.rpcUrls,
-                        blockExplorerUrls: TEMPO_CONFIG.blockExplorerUrls
-                    }]
-                });
-            } catch (addError) {
-                console.error('Failed to add Tempo network:', addError);
-                throw addError;
-            }
-        } else {
-            throw switchError;
-        }
-    }
-}
-
-async function connectWalletConnect() {
-    alert('WalletConnect integration would go here');
-    // Implementation for WalletConnect
-}
-
-async function connectCoinbase() {
-    if (typeof window.ethereum !== 'undefined' && window.ethereum.isCoinbaseWallet) {
-        await connectMetaMask(); // Coinbase Wallet uses same interface
+  const chainHex = `0x${Number(TEMPO_CONFIG.chainId).toString(16)}`;
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: chainHex }]
+    });
+  } catch (e) {
+    if (e.code === 4902) {
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [{
+          chainId: chainHex,
+          chainName: TEMPO_CONFIG.chainName,
+          nativeCurrency: TEMPO_CONFIG.nativeCurrency,
+          rpcUrls: TEMPO_CONFIG.rpcUrls,
+          blockExplorerUrls: TEMPO_CONFIG.blockExplorerUrls
+        }]
+      });
     } else {
-        alert('Please install Coinbase Wallet to connect');
+      throw e;
     }
+  }
+}
+
+function connectCoinbase() {
+  if (window.ethereum && window.ethereum.isCoinbaseWallet) {
+    connectMetaMask();
+  } else {
+    alert('Coinbase Wallet not found');
+  }
 }
 
 function updateWalletUI() {
-    if (state.connected && state.walletAddress) {
-        const address = state.walletAddress;
-        const shortAddress = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-        
-        elements.connectWallet.innerHTML = `
-            <i class="fas fa-wallet"></i>
-            <span>${shortAddress}</span>
-            <div class="wallet-glow"></div>
-        `;
-        
-        // Update balance if on dashboard
-        if (window.location.pathname.includes('dashboard.html')) {
-            updateWalletBalance();
-        }
-    }
-}
-
-async function updateWalletBalance() {
-    if (!state.provider || !state.walletAddress) return;
-    
-    try {
-        const balance = await state.provider.getBalance(state.walletAddress);
-        const balanceElement = document.getElementById('walletBalance');
-        if (balanceElement) {
-            balanceElement.textContent = `${ethers.utils.formatUnits(balance, 6)} USD`;
-        }
-    } catch (error) {
-        console.error('Failed to fetch balance:', error);
-    }
+  if (!elements.connectWallet || !state.walletAddress) return;
+  const a = state.walletAddress;
+  elements.connectWallet.innerHTML = `
+    <i class="fas fa-wallet"></i>
+    <span>${a.slice(0,6)}...${a.slice(-4)}</span>
+  `;
 }
 
 function checkWalletConnection() {
-    if (typeof window.ethereum !== 'undefined') {
-        window.ethereum.on('accountsChanged', (accounts) => {
-            if (accounts.length > 0) {
-                state.walletAddress = accounts[0];
-                updateWalletUI();
-            } else {
-                state.connected = false;
-                state.walletAddress = null;
-                resetWalletUI();
-            }
-        });
-        
-        window.ethereum.on('chainChanged', () => {
-            window.location.reload();
-        });
-        
-        // Check if already connected
-        window.ethereum.request({ method: 'eth_accounts' })
-            .then(accounts => {
-                if (accounts.length > 0) {
-                    state.walletAddress = accounts[0];
-                    state.connected = true;
-                    state.provider = new ethers.providers.Web3Provider(window.ethereum);
-                    state.signer = state.provider.getSigner();
-                    updateWalletUI();
-                }
-            });
+  if (!window.ethereum || typeof ethers === 'undefined') return;
+
+  window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
+    if (accounts.length) {
+      state.provider = new ethers.providers.Web3Provider(window.ethereum);
+      state.signer = state.provider.getSigner();
+      state.walletAddress = accounts[0];
+      state.connected = true;
+      updateWalletUI();
     }
+  });
 }
 
-function resetWalletUI() {
-    elements.connectWallet.innerHTML = `
-        <i class="fas fa-wallet"></i>
-        <span>Connect Wallet</span>
-        <div class="wallet-glow"></div>
-    `;
-}
+// ================= PAGE STATE =================
 
 function updatePageState() {
-    const path = window.location.pathname;
-    if (path.includes('dashboard')) state.currentPage = 'dashboard';
-    else if (path.includes('create-split')) state.currentPage = 'create-split';
-    else if (path.includes('transactions')) state.currentPage = 'transactions';
-    else if (path.includes('team')) state.currentPage = 'team';
-    else if (path.includes('plans')) state.currentPage = 'plans';
-    else state.currentPage = 'home';
-    
-    // Update active nav link
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href')?.includes(state.currentPage)) {
-            link.classList.add('active');
-        }
-    });
+  const path = window.location.pathname;
+  if (path.includes('dashboard')) state.currentPage = 'dashboard';
+  else if (path.includes('create-split')) state.currentPage = 'create-split';
+  else state.currentPage = 'home';
 }
 
-// Contract Interactions (Demo functions)
-async function createSplitContract(name, members, shares, tokenAddress) {
-    if (!state.connected || !state.signer) {
-        alert('Please connect your wallet first');
-        return;
-    }
-    
-    try {
-        // This would be the actual contract interaction
-        alert(`Creating split contract for ${name} with ${members.length} members`);
-        // In production: deploy contract using factory
-        
-        // Redirect to dashboard
-        window.location.href = 'dashboard.html';
-    } catch (error) {
-        console.error('Failed to create split:', error);
-        alert('Failed to create split contract');
-    }
-}
+// ================= EXPORT =================
 
-async function makePayment(splitterAddress, amount) {
-    if (!state.connected || !state.signer) {
-        alert('Please connect your wallet first');
-        return;
-    }
-    
-    try {
-        alert(`Making payment of ${amount} USD to splitter`);
-        // In production: call receivePayment on splitter contract
-        
-        // Show success message
-        showNotification('Payment successful! Distribution in progress.');
-    } catch (error) {
-        console.error('Payment failed:', error);
-        alert('Payment failed');
-    }
-}
-
-// Utility Functions
-function showNotification(message, type = 'success') {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: var(--card-bg);
-        border: 1px solid ${type === 'success' ? 'var(--teal)' : 'var(--accent)'};
-        color: var(--text-primary);
-        padding: 1rem 2rem;
-        border-radius: 10px;
-        backdrop-filter: blur(20px);
-        z-index: 3000;
-        animation: slide-in 0.3s ease-out;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slide-in 0.3s ease-out reverse';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
-}
-
-function formatAddress(address) {
-    if (!address) return '';
-    return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-}
-
-function formatAmount(amount) {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 6
-    }).format(amount);
-}
-
-// Export for other pages
 window.SplitPay = {
-    state,
-    TEMPO_CONFIG,
-    connectMetaMask,
-    createSplitContract,
-    makePayment,
-    formatAddress,
-    formatAmount
+  state,
+  connectMetaMask
 };
