@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SplitPay | Luxury Split Payments Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background Elements -->
+    <div class="background-elements">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="light-beam"></div>
+        <div class="light-beam"></div>
+        <div class="smoke"></div>
+        <div class="glow"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-share-alt"></i>
+                </div>
+                <span class="logo-text">Split<span class="logo-accent">Pay</span></span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="create-split.html" class="nav-link">Create Split</a>
+                <a href="transactions.html" class="nav-link">Transactions</a>
+                <a href="team.html" class="nav-link">Team</a>
+                <a href="plans.html" class="nav-link">Plans</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="wallet-btn" id="connectWallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                    <div class="wallet-glow"></div>
+                </button>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-text">🚀 Powered by Tempo Blockchain</span>
+                    <div class="badge-glow"></div>
+                </div>
+                
+                <h1 class="hero-title">
+                    <span class="title-gradient">Split Payments</span>
+                    <span class="title-main">Platform</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Automatically split payments between recipients instantly on-chain.
+                    Luxury-grade fintech for Web3 teams, creators, and DAOs.
+                </p>
+                
+                <div class="hero-actions">
+                    <button class="btn-primary btn-hero" id="createSplitBtn">
+                        <span>Create Split</span>
+                        <i class="fas fa-arrow-right"></i>
+                        <div class="btn-glow"></div>
+                    </button>
+                    
+                    <button class="btn-secondary" id="watchDemo">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Watch Demo</span>
+                    </button>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">$4.2M+</div>
+                        <div class="stat-label">Total Volume</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">12.5K+</div>
+                        <div class="stat-label">Active Splits</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">$0.01</div>
+                        <div class="stat-label">Avg Fee</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="chart-container">
+                    <div class="donut-chart" id="donutChart">
+                        <div class="chart-segment" style="--segment-color: #FFD700; --segment-size: 40;"></div>
+                        <div class="chart-segment" style="--segment-color: #00D4AA; --segment-size: 30;"></div>
+                        <div class="chart-segment" style="--segment-color: #8A2BE2; --segment-size: 20;"></div>
+                        <div class="chart-segment" style="--segment-color: #FF6B6B; --segment-size: 10;"></div>
+                        <div class="chart-center">
+                            <div class="center-glow"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-legends">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #FFD700;"></div>
+                            <span>Team (40%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #00D4AA;"></div>
+                            <span>Contributors (30%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #8A2BE2;"></div>
+                            <span>Treasury (20%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #FF6B6B;"></div>
+                            <span>Bonus Pool (10%)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="floating-card" style="--delay: 0s;">
+                        <i class="fas fa-bolt"></i>
+                        <span>Instant Split</span>
+                    </div>
+                    <div class="floating-card" style="--delay: 0.5s;">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure</span>
+                    </div>
+                    <div class="floating-card" style="--delay: 1s;">
+                        <i class="fas fa-coins"></i>
+                        <span>Low Fees</span>
+                    </div>
+                </div>
+                
+                <div class="reflection"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Premium <span class="text-gradient">Features</span></h2>
+                <p class="section-subtitle">Everything you need for professional payment management</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <h3 class="feature-title">Auto Distribution</h3>
+                    <p class="feature-description">
+                        Payments automatically split to recipients based on predefined percentages. No manual intervention needed.
+                    </p>
+                    <div class="feature-hover"></div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-handshake"></i>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <h3 class="feature-title">Multi-Token Support</h3>
+                    <p class="feature-description">
+                        Support for USDC, USDT, and any ERC20 token. Pay and get paid in your preferred currency.
+                    </p>
+                    <div class="feature-hover"></div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-network"></i>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <h3 class="feature-title">Real-Time Analytics</h3>
+                    <p class="feature-description">
+                        Comprehensive dashboard with real-time insights, transaction history, and performance metrics.
+                    </p>
+                    <div class="feature-hover"></div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <h3 class="feature-title">Team Management</h3>
+                    <p class="feature-description">
+                        Easily add/remove team members, update shares, and manage permissions in real-time.
+                    </p>
+                    <div class="feature-hover"></div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <h3 class="feature-title">Scheduled Payments</h3>
+                    <p class="feature-description">
+                        Set up recurring splits for payroll, subscriptions, or regular distributions.
+                    </p>
+                    <div class="feature-hover"></div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <h3 class="feature-title">Security First</h3>
+                    <p class="feature-description">
+                        Enterprise-grade security with multi-sig support and audit trails for all transactions.
+                    </p>
+                    <div class="feature-hover"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="usecases-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Perfect For <span class="text-gradient">Every Team</span></h2>
+            </div>
+            
+            <div class="usecases-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3>Creator Platforms</h3>
+                        <p>Split YouTube-like revenue between creator, editor, and platform</p>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Freelancer Teams</h3>
+                        <p>One client payment split between designer, developer, and QA</p>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>DAOs</h3>
+                        <p>Automatic treasury distribution to core team, contributors, and grants</p>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3>E-commerce</h3>
+                        <p>Product revenue split between brand, manufacturer, and affiliates</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-content">
+                    <h2 class="cta-title">Ready to Streamline Your Payments?</h2>
+                    <p class="cta-description">
+                        Join thousands of teams using SplitPay to automate their payment distributions.
+                        Zero setup fees, transparent pricing.
+                    </p>
+                    <button class="btn-primary btn-cta" id="getStartedBtn">
+                        <span>Get Started Free</span>
+                        <i class="fas fa-rocket"></i>
+                    </button>
+                </div>
+                <div class="cta-visual">
+                    <div class="cta-glow"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <span class="logo-text">Split<span class="logo-accent">Pay</span></span>
+                    </div>
+                    <p class="footer-tagline">
+                        Luxury split payments on Tempo Blockchain
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <a href="#">Features</a>
+                        <a href="#">Pricing</a>
+                        <a href="#">Use Cases</a>
+                        <a href="#">API</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <a href="#">About</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Contact</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-divider"></div>
+                <p class="copyright">© 2024 SplitPay. All rights reserved. Built on <span class="tempo-badge">Tempo Blockchain</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Wallet Modal -->
+    <div class="modal" id="walletModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Connect Wallet</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="wallet-options">
+                    <button class="wallet-option" id="metamaskBtn">
+                        <i class="fab fa-ethereum"></i>
+                        <span>MetaMask</span>
+                    </button>
+                    <button class="wallet-option" id="walletConnectBtn">
+                        <i class="fas fa-wallet"></i>
+                        <span>WalletConnect</span>
+                    </button>
+                    <button class="wallet-option" id="coinbaseBtn">
+                        <i class="fab fa-bitcoin"></i>
+                        <span>Coinbase Wallet</span>
+                    </button>
+                </div>
+                <p class="wallet-note">Connect your wallet to start using SplitPay</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

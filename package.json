@@ -1,0 +1,28 @@
+{
+  "name": "split-payments-platform",
+  "version": "1.0.0",
+  "description": "Split Payments Platform for Tempo Blockchain",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network tempo",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "clean": "hardhat clean"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
+    "dotenv": "^16.3.1",
+    "ethers": "^5.7.2"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "hardhat": "^2.22.3"
+  },
+  "keywords": [
+    "tempo",
+    "split-payments",
+    "blockchain"
+  ],
+  "license": "MIT"
+}

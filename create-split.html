@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Split | SplitPay</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background Elements -->
+    <div class="background-elements">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="light-beam"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-share-alt"></i>
+                </div>
+                <span class="logo-text">Split<span class="logo-accent">Pay</span></span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="create-split.html" class="nav-link active">Create Split</a>
+                <a href="transactions.html" class="nav-link">Transactions</a>
+                <a href="team.html" class="nav-link">Team</a>
+                <a href="plans.html" class="nav-link">Plans</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="wallet-btn" id="connectWallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                    <div class="wallet-glow"></div>
+                </button>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Create Split Page -->
+    <div class="create-split-container">
+        <div class="create-split-header">
+            <h1>Create New Split</h1>
+            <p>Set up automated payment distributions for your team, project, or DAO</p>
+        </div>
+
+        <div class="split-creation-wizard">
+            <!-- Step 1: Basic Info -->
+            <div class="wizard-step active" id="step1">
+                <div class="step-header">
+                    <div class="step-number active">1</div>
+                    <div class="step-info">
+                        <h3>Basic Information</h3>
+                        <p>Name your split and choose payment token</p>
+                    </div>
+                </div>
+                
+                <div class="step-content">
+                    <div class="form-group">
+                        <label for="splitName">
+                            <i class="fas fa-tag"></i>
+                            Split Name
+                        </label>
+                        <input type="text" id="splitName" placeholder="e.g., Core Team, Content Creators, DAO Treasury">
+                        <div class="form-hint">Give your split a descriptive name</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="splitToken">
+                            <i class="fas fa-coins"></i>
+                            Payment Token
+                        </label>
+                        <div class="token-selector">
+                            <div class="token-option active" data-token="USDC">
+                                <div class="token-icon">USDC</div>
+                                <span>USDC</span>
+                            </div>
+                            <div class="token-option" data-token="USDT">
+                                <div class="token-icon">USDT</div>
+                                <span>USDT</span>
+                            </div>
+                            <div class="token-option" data-token="DAI">
+                                <div class="token-icon">DAI</div>
+                                <span>DAI</span>
+                            </div>
+                            <div class="token-option" data-token="custom">
+                                <div class="token-icon">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                                <span>Custom</span>
+                            </div>
+                        </div>
+                        <div class="form-hint">Select the token you'll be receiving payments in</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="splitDescription">
+                            <i class="fas fa-align-left"></i>
+                            Description (Optional)
+                        </label>
+                        <textarea id="splitDescription" rows="3" placeholder="Describe what this split is for..."></textarea>
+                    </div>
+                    
+                    <div class="wizard-actions">
+                        <button class="btn-secondary" disabled>Previous</button>
+                        <button class="btn-primary" onclick="nextStep()">Next: Add Members</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Add Members -->
+            <div class="wizard-step" id="step2">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-info">
+                        <h3>Add Members</h3>
+                        <p>Add team members and set their share percentages</p>
+                    </div>
+                </div>
+                
+                <div class="step-content">
+                    <div class="members-container">
+                        <div class="members-list" id="membersList">
+                            <!-- Members will be added here -->
+                        </div>
+                        
+                        <div class="add-member-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Wallet Address</label>
+                                    <input type="text" id="memberAddress" placeholder="0x...">
+                                </div>
+                                <div class="form-group">
+                                    <label>Share Percentage</label>
+                                    <div class="percentage-input">
+                                        <input type="number" id="memberShare" min="0" max="100" step="0.1" placeholder="e.g., 25.5">
+                                        <span>%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button class="btn-secondary btn-add-member" onclick="addMember()">
+                                <i class="fas fa-plus"></i>
+                                Add Member
+                            </button>
+                        </div>
+                        
+                        <div class="total-shares">
+                            <div class="shares-label">Total Shares:</div>
+                            <div class="shares-value" id="totalShares">0%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="autoDistribute">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">
+                                <strong>Auto-distribute payments</strong>
+                                <small>Automatically split and send payments when received</small>
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <div class="wizard-actions">
+                        <button class="btn-secondary" onclick="prevStep()">Previous</button>
+                        <button class="btn-primary" onclick="nextStep()">Next: Review</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Review & Create -->
+            <div class="wizard-step" id="step3">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-info">
+                        <h3>Review & Create</h3>
+                        <p>Review your split configuration and deploy</p>
+                    </div>
+                </div>
+                
+                <div class="step-content">
+                    <div class="review-card">
+                        <div class="review-section">
+                            <h4>Split Details</h4>
+                            <div class="review-item">
+                                <span class="review-label">Name:</span>
+                                <span class="review-value" id="reviewName">-</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="review-label">Token:</span>
+                                <span class="review-value" id="reviewToken">-</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="review-label">Auto-distribute:</span>
+                                <span class="review-value" id="reviewAuto">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="review-section">
+                            <h4>Members & Shares</h4>
+                            <div class="review-members" id="reviewMembers">
+                                <!-- Members review will be added here -->
+                            </div>
+                        </div>
+                        
+                        <div class="review-section">
+                            <h4>Gas Estimate</h4>
+                            <div class="gas-estimate">
+                                <div class="gas-item">
+                                    <span>Network Fee:</span>
+                                    <span>$0.01 - $0.05</span>
+                                </div>
+                                <div class="gas-item">
+                                    <span>Contract Deployment:</span>
+                                    <span>$0.10 - $0.20</span>
+                                </div>
+                                <div class="gas-total">
+                                    <span>Total Estimate:</span>
+                                    <span class="total-amount">$0.11 - $0.25</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="termsAgree">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">
+                                I agree to the <a href="#">Terms of Service</a> and understand that this split contract will be deployed on the Tempo blockchain
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <div class="wizard-actions">
+                        <button class="btn-secondary" onclick="prevStep()">Previous</button>
+                        <button class="btn-primary btn-create" id="createSplitBtn">
+                            <i class="fas fa-rocket"></i>
+                            Create Split Contract
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Step -->
+            <div class="wizard-step success-step" id="successStep">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Split Created Successfully!</h2>
+                <p>Your split contract has been deployed on the Tempo blockchain.</p>
+                
+                <div class="success-details">
+                    <div class="detail-item">
+                        <span>Contract Address:</span>
+                        <code id="contractAddress">0x...</code>
+                        <button class="btn-icon-small" onclick="copyToClipboard('contractAddress')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="detail-item">
+                        <span>Transaction Hash:</span>
+                        <code id="transactionHash">0x...</code>
+                        <button class="btn-icon-small" onclick="copyToClipboard('transactionHash')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="success-actions">
+                    <button class="btn-secondary" onclick="viewOnExplorer()">
+                        <i class="fas fa-external-link-alt"></i>
+                        View on Explorer
+                    </button>
+                    <button class="btn-primary" onclick="goToDashboard()">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Go to Dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Templates -->
+        <div class="quick-templates">
+            <h3>Quick Templates</h3>
+            <div class="templates-grid">
+                <div class="template-card" onclick="loadTemplate('team')">
+                    <div class="template-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Team Split</h4>
+                    <p>3-5 members with equal shares</p>
+                </div>
+                
+                <div class="template-card" onclick="loadTemplate('creator')">
+                    <div class="template-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h4>Creator Revenue</h4>
+                    <p>Platform + Creator + Editor split</p>
+                </div>
+                
+                <div class="template-card" onclick="loadTemplate('dao')">
+                    <div class="template-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <h4>DAO Treasury</h4>
+                    <p>Team, Contributors, Grants split</p>
+                </div>
+                
+                <div class="template-card" onclick="loadTemplate('freelance')">
+                    <div class="template-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4>Freelance Team</h4>
+                    <p>Design + Development + QA split</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wallet Modal -->
+    <div class="modal" id="walletModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Connect Wallet</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="wallet-options">
+                    <button class="wallet-option" id="metamaskBtn">
+                        <i class="fab fa-ethereum"></i>
+                        <span>MetaMask</span>
+                    </button>
+                    <button class="wallet-option" id="walletConnectBtn">
+                        <i class="fas fa-wallet"></i>
+                        <span>WalletConnect</span>
+                    </button>
+                    <button class="wallet-option" id="coinbaseBtn">
+                        <i class="fab fa-bitcoin"></i>
+                        <span>Coinbase Wallet</span>
+                    </button>
+                </div>
+                <p class="wallet-note">Connect your wallet to create a split</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="create-split.js"></script>
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | SplitPay</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background Elements -->
+    <div class="background-elements">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="light-beam"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-share-alt"></i>
+                </div>
+                <span class="logo-text">Split<span class="logo-accent">Pay</span></span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="create-split.html" class="nav-link">Create Split</a>
+                <a href="transactions.html" class="nav-link">Transactions</a>
+                <a href="team.html" class="nav-link">Team</a>
+                <a href="plans.html" class="nav-link">Plans</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="wallet-btn" id="connectWallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                    <div class="wallet-glow"></div>
+                </button>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <h4 id="userAddress">Not Connected</h4>
+                        <span class="user-status">Connect Wallet</span>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Overview</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Splits</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transactions</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-users"></i>
+                    <span>Team</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="network-status">
+                    <div class="status-indicator connected"></div>
+                    <span>Tempo Testnet</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Top Bar -->
+            <div class="dashboard-topbar">
+                <div class="topbar-left">
+                    <h1 class="dashboard-title">Dashboard</h1>
+                    <p class="dashboard-subtitle">Manage your split payments and distributions</p>
+                </div>
+                
+                <div class="topbar-right">
+                    <div class="wallet-balance-card">
+                        <div class="balance-label">Wallet Balance</div>
+                        <div class="balance-amount" id="walletBalance">0.00 USD</div>
+                        <div class="balance-glow"></div>
+                    </div>
+                    
+                    <button class="btn-primary btn-small" id="newSplitBtn">
+                        <i class="fas fa-plus"></i>
+                        <span>New Split</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card-large">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-trend positive">+12.5%</div>
+                    </div>
+                    <div class="stat-value-large">$42,850.25</div>
+                    <div class="stat-label">Total Volume</div>
+                    <div class="stat-progress">
+                        <div class="progress-bar" style="width: 75%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card-large">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <div class="stat-trend positive">+8.2%</div>
+                    </div>
+                    <div class="stat-value-large">18</div>
+                    <div class="stat-label">Active Splits</div>
+                    <div class="stat-progress">
+                        <div class="progress-bar" style="width: 60%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card-large">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="stat-trend positive">+15.3%</div>
+                    </div>
+                    <div class="stat-value-large">47</div>
+                    <div class="stat-label">Team Members</div>
+                    <div class="stat-progress">
+                        <div class="progress-bar" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card-large">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-trend negative">-2.1%</div>
+                    </div>
+                    <div class="stat-value-large">$0.012</div>
+                    <div class="stat-label">Avg Fee per Tx</div>
+                    <div class="stat-progress">
+                        <div class="progress-bar" style="width: 40%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="content-grid">
+                <!-- Recent Transactions -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Recent Transactions</h3>
+                        <button class="btn-text">View All</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="transactions-list">
+                            <div class="transaction-item">
+                                <div class="transaction-icon success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-title">Team Payment</div>
+                                    <div class="transaction-meta">0xa3c5...8f2b • 2 min ago</div>
+                                </div>
+                                <div class="transaction-amount positive">+$1,250.00</div>
+                            </div>
+                            
+                            <div class="transaction-item">
+                                <div class="transaction-icon pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-title">Creator Revenue</div>
+                                    <div class="transaction-meta">0xb8d9...3c7a • 1 hour ago</div>
+                                </div>
+                                <div class="transaction-amount positive">+$850.50</div>
+                            </div>
+                            
+                            <div class="transaction-item">
+                                <div class="transaction-icon success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-title">DAO Distribution</div>
+                                    <div class="transaction-meta">0xc4e2...9d1f • 3 hours ago</div>
+                                </div>
+                                <div class="transaction-amount positive">+$5,200.00</div>
+                            </div>
+                            
+                            <div class="transaction-item">
+                                <div class="transaction-icon success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-title">Freelance Payment</div>
+                                    <div class="transaction-meta">0xd7f3...6a8c • 1 day ago</div>
+                                </div>
+                                <div class="transaction-amount positive">+$420.75</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Split Chart -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Split Distribution</h3>
+                        <div class="chart-actions">
+                            <button class="btn-icon"><i class="fas fa-sync-alt"></i></button>
+                            <button class="btn-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="split-chart-container">
+                            <div class="split-chart">
+                                <!-- Chart will be generated by JS -->
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #FFD700;"></div>
+                                    <span>Development (35%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #00D4AA;"></div>
+                                    <span>Marketing (25%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #8A2BE2;"></div>
+                                    <span>Operations (20%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #FF6B6B;"></div>
+                                    <span>Reserves (15%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #6BFFE0;"></div>
+                                    <span>Bonus (5%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Splits -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Active Splits</h3>
+                        <button class="btn-text" id="createSplitBtn2">Create New</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="splits-list">
+                            <div class="split-item">
+                                <div class="split-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="split-details">
+                                    <div class="split-name">Core Team</div>
+                                    <div class="split-meta">5 members • Last payment: Today</div>
+                                </div>
+                                <div class="split-amount">$8,450.00</div>
+                                <button class="btn-icon-small"><i class="fas fa-ellipsis-h"></i></button>
+                            </div>
+                            
+                            <div class="split-item">
+                                <div class="split-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <div class="split-details">
+                                    <div class="split-name">Content Creators</div>
+                                    <div class="split-meta">12 members • Last payment: 2 days ago</div>
+                                </div>
+                                <div class="split-amount">$15,200.50</div>
+                                <button class="btn-icon-small"><i class="fas fa-ellipsis-h"></i></button>
+                            </div>
+                            
+                            <div class="split-item">
+                                <div class="split-icon">
+                                    <i class="fas fa-store"></i>
+                                </div>
+                                <div class="split-details">
+                                    <div class="split-name">E-commerce</div>
+                                    <div class="split-meta">8 members • Last payment: 1 week ago</div>
+                                </div>
+                                <div class="split-amount">$32,100.75</div>
+                                <button class="btn-icon-small"><i class="fas fa-ellipsis-h"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Payouts -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Upcoming Payouts</h3>
+                        <button class="btn-text">Schedule New</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="payouts-list">
+                            <div class="payout-item">
+                                <div class="payout-info">
+                                    <div class="payout-name">Monthly Salary</div>
+                                    <div class="payout-date">Due: Dec 15, 2024</div>
+                                </div>
+                                <div class="payout-progress">
+                                    <div class="progress-ring" data-value="85">
+                                        <svg width="60" height="60">
+                                            <circle class="progress-ring-bg" cx="30" cy="30" r="25"></circle>
+                                            <circle class="progress-ring-fill" cx="30" cy="30" r="25"></circle>
+                                        </svg>
+                                        <span>85%</span>
+                                    </div>
+                                </div>
+                                <div class="payout-amount">$25,000.00</div>
+                            </div>
+                            
+                            <div class="payout-item">
+                                <div class="payout-info">
+                                    <div class="payout-name">Partner Revenue</div>
+                                    <div class="payout-date">Due: Dec 20, 2024</div>
+                                </div>
+                                <div class="payout-progress">
+                                    <div class="progress-ring" data-value="60">
+                                        <svg width="60" height="60">
+                                            <circle class="progress-ring-bg" cx="30" cy="30" r="25"></circle>
+                                            <circle class="progress-ring-fill" cx="30" cy="30" r="25"></circle>
+                                        </svg>
+                                        <span>60%</span>
+                                    </div>
+                                </div>
+                                <div class="payout-amount">$12,500.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Wallet Modal -->
+    <div class="modal" id="walletModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Connect Wallet</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="wallet-options">
+                    <button class="wallet-option" id="metamaskBtn">
+                        <i class="fab fa-ethereum"></i>
+                        <span>MetaMask</span>
+                    </button>
+                    <button class="wallet-option" id="walletConnectBtn">
+                        <i class="fas fa-wallet"></i>
+                        <span>WalletConnect</span>
+                    </button>
+                    <button class="wallet-option" id="coinbaseBtn">
+                        <i class="fab fa-bitcoin"></i>
+                        <span>Coinbase Wallet</span>
+                    </button>
+                </div>
+                <p class="wallet-note">Connect your wallet to start using SplitPay</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
