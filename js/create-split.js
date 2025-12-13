@@ -1,13 +1,13 @@
 // Create Split functionality
 let splitData = {
     name: '',
-    token: 'USDC',
+-   token: 'USDC',
++   token: '',
     description: '',
     members: [],
     autoDistribute: true,
     totalShares: 0
 };
-
 let currentStep = 1;
 const totalSteps = 3;
 
@@ -26,6 +26,17 @@ function initCreateSplit() {
             updateReview();
         });
     });
+     // ✅ Custom token address input FIX
+const customTokenInput = document.getElementById('customTokenAddress');
+if (customTokenInput) {
+    customTokenInput.addEventListener('input', (e) => {
+        const value = e.target.value.trim();
+        if (value.startsWith('0x') && value.length === 42) {
+            splitData.token = value;
+            updateReview();
+        }
+    });
+}
     
     // Auto distribute toggle
     const autoDistribute = document.getElementById('autoDistribute');
@@ -372,9 +383,8 @@ async function createSplitContract() {
         createBtn.disabled = true;
         
         // Prepare members data
-        const members = splitData.members.map(m => m.address);
-        const shares = splitData.members.map(m => Math.floor(m.share * 100)); // Convert to basis points
-        
+        - const shares = splitData.members.map(m => Math.floor(m.share * 100));
++ const shares = splitData.members.map(m => Math.floor(m.share));
         // Call the create split function
         await window.SplitPay.createSplitContract(
             splitData.name,

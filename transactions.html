@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions | SplitPay</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/transactions.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="background-elements">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="light-beam"></div>
+        <div class="smoke"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-share-alt"></i>
+                </div>
+                <span class="logo-text">Split<span class="logo-accent">Pay</span></span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="create-split.html" class="nav-link">Create Split</a>
+                <a href="transactions.html" class="nav-link active">Transactions</a>
+                <a href="team.html" class="nav-link">Team</a>
+                <a href="plans.html" class="nav-link">Plans</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="wallet-btn" id="connectWallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                    <div class="wallet-glow"></div>
+                </button>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Transactions Page -->
+    <div class="transactions-page">
+        <!-- Header -->
+        <div class="transactions-header">
+            <div>
+                <h1 class="transactions-title">Transaction History</h1>
+                <p class="transactions-subtitle">Track all your payments, distributions, and splits in real-time</p>
+            </div>
+            
+            <div class="transactions-actions">
+                <button class="btn-secondary" id="exportBtn">
+                    <i class="fas fa-download"></i>
+                    Export CSV
+                </button>
+                <button class="btn-primary" id="refreshBtn">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="transactions-stats">
+            <div class="stat-card" data-metric="volume">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-value">$8,450.25</div>
+                <div class="stat-label">Total Volume</div>
+            </div>
+            
+            <div class="stat-card" data-metric="transactions">
+                <div class="stat-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="stat-value">47</div>
+                <div class="stat-label">Transactions</div>
+            </div>
+            
+            <div class="stat-card" data-metric="successRate">
+                <div class="stat-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <div class="stat-value">98.5%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+            
+            <div class="stat-card" data-metric="avgGas">
+                <div class="stat-icon">
+                    <i class="fas fa-gas-pump"></i>
+                </div>
+                <div class="stat-value">$0.012</div>
+                <div class="stat-label">Avg Gas Fee</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="transactions-filters">
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="filterSelect">Transaction Type</label>
+                    <select id="filterSelect">
+                        <option value="all">All Types</option>
+                        <option value="incoming">Incoming Payments</option>
+                        <option value="outgoing">Outgoing Payments</option>
+                        <option value="distribution">Distributions</option>
+                        <option value="withdrawal">Withdrawals</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dateFrom">Date From</label>
+                    <input type="date" id="dateFrom">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dateTo">Date To</label>
+                    <input type="date" id="dateTo">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="statusFilter">Status</label>
+                    <select id="statusFilter">
+                        <option value="all">All Status</option>
+                        <option value="completed">Completed</option>
+                        <option value="pending">Pending</option>
+                        <option value="failed">Failed</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="transactions-content">
+            <!-- Transactions Table -->
+            <div class="transactions-table-container">
+                <div class="table-header">
+                    <h3>Recent Transactions</h3>
+                    <div class="table-actions">
+                        <button class="btn-icon" id="filterBtn">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <button class="btn-icon" id="sortBtn">
+                            <i class="fas fa-sort-amount-down"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                            <th>Gas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionsList">
+                        <!-- Transactions will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Charts Sidebar -->
+            <div class="transactions-charts">
+                <!-- Volume Chart -->
+                <div class="chart-card">
+                    <h3>Volume Trend (7 Days)</h3>
+                    <div class="chart-container" id="volumeChart">
+                        <!-- Chart will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Type Distribution -->
+                <div class="chart-card">
+                    <h3>Transaction Types</h3>
+                    <div class="chart-container" id="typeChart">
+                        <!-- Chart will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="chart-card">
+                    <h3>Quick Stats</h3>
+                    <div class="quick-stats">
+                        <div class="quick-stat">
+                            <div class="stat-label">Today's Volume</div>
+                            <div class="stat-value">$1,250.50</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="stat-label">Pending Transactions</div>
+                            <div class="stat-value">3</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="stat-label">Avg Tx Time</div>
+                            <div class="stat-value">12s</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="stat-label">Total Gas Used</div>
+                            <div class="stat-value">$0.57</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wallet Modal -->
+    <div class="modal" id="walletModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Connect Wallet</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="wallet-options">
+                    <button class="wallet-option" id="metamaskBtn">
+                        <i class="fab fa-ethereum"></i>
+                        <span>MetaMask</span>
+                    </button>
+                    <button class="wallet-option" id="walletConnectBtn">
+                        <i class="fas fa-wallet"></i>
+                        <span>WalletConnect</span>
+                    </button>
+                    <button class="wallet-option" id="coinbaseBtn">
+                        <i class="fab fa-bitcoin"></i>
+                        <span>Coinbase Wallet</span>
+                    </button>
+                </div>
+                <p class="wallet-note">Connect your wallet to view transactions</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Details Modal (Hidden) -->
+    <div class="modal transaction-details-modal" id="txDetailsModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Transaction Details</h3>
+                <button class="modal-close" id="closeTxModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tx-details" id="txDetailsContent">
+                    <!-- Details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/transactions.js"></script>
+</body>
+</html>

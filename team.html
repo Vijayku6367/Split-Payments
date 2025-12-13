@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Management | SplitPay</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/team.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="background-elements">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="light-beam"></div>
+        <div class="smoke"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-share-alt"></i>
+                </div>
+                <span class="logo-text">Split<span class="logo-accent">Pay</span></span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="create-split.html" class="nav-link">Create Split</a>
+                <a href="transactions.html" class="nav-link">Transactions</a>
+                <a href="team.html" class="nav-link active">Team</a>
+                <a href="plans.html" class="nav-link">Plans</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="wallet-btn" id="connectWallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                    <div class="wallet-glow"></div>
+                </button>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Team Page -->
+    <div class="team-page">
+        <!-- Header -->
+        <div class="team-header">
+            <div>
+                <h1 class="team-title">Team Management</h1>
+                <p class="team-subtitle">Manage your team members, shares, and payment distributions</p>
+            </div>
+            
+            <div class="team-actions">
+                <button class="btn-secondary" id="importTeamBtn">
+                    <i class="fas fa-file-import"></i>
+                    Import
+                </button>
+                <button class="btn-primary" id="addMemberBtn">
+                    <i class="fas fa-user-plus"></i>
+                    Add Member
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="team-stats">
+            <div class="stat-card" data-metric="totalMembers">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-value">12</div>
+                <div class="stat-label">Total Members</div>
+            </div>
+            
+            <div class="stat-card" data-metric="activeMembers">
+                <div class="stat-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="stat-value">10</div>
+                <div class="stat-label">Active</div>
+            </div>
+            
+            <div class="stat-card" data-metric="totalShares">
+                <div class="stat-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <div class="stat-value">325%</div>
+                <div class="stat-label">Total Shares</div>
+            </div>
+            
+            <div class="stat-card" data-metric="totalEarned">
+                <div class="stat-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="stat-value">$49,250</div>
+                <div class="stat-label">Total Earned</div>
+            </div>
+            
+            <div class="stat-card" data-metric="avgShare">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="stat-value">27.1%</div>
+                <div class="stat-label">Avg Share</div>
+            </div>
+            
+            <div class="stat-card" data-metric="topRole">
+                <div class="stat-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="stat-value">Developer</div>
+                <div class="stat-label">Top Role</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="team-filters">
+            <div class="filter-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="teamSearch" placeholder="Search team members...">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="roleFilter">Filter by Role</label>
+                    <select id="roleFilter">
+                        <option value="all">All Roles</option>
+                        <option value="developer">Developer</option>
+                        <option value="designer">Designer</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="operations">Operations</option>
+                        <option value="content">Content Creator</option>
+                        <option value="manager">Manager</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="statusFilter">Filter by Status</label>
+                    <select id="statusFilter">
+                        <option value="all">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="team-content">
+            <!-- Team List -->
+            <div class="team-list" id="teamList">
+                <!-- Team members will be loaded here -->
+            </div>
+
+            <!-- Sidebar -->
+            <div class="team-sidebar">
+                <!-- Role Distribution -->
+                <div class="role-distribution">
+                    <h3>Role Distribution</h3>
+                    <div class="chart-container" id="roleChart">
+                        <!-- Chart will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="action-list">
+                        <a href="#" class="action-item" id="bulkAddBtn">
+                            <i class="fas fa-user-friends"></i>
+                            <span>Bulk Add Members</span>
+                        </a>
+                        <a href="#" class="action-item" id="exportTeamBtn">
+                            <i class="fas fa-file-export"></i>
+                            <span>Export Team Data</span>
+                        </a>
+                        <a href="#" class="action-item" id="sendAnnouncementBtn">
+                            <i class="fas fa-bullhorn"></i>
+                            <span>Send Announcement</span>
+                        </a>
+                        <a href="#" class="action-item" id="viewReportsBtn">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>View Reports</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Team Insights -->
+                <div class="quick-actions">
+                    <h3>Team Insights</h3>
+                    <div class="insights-list">
+                        <div class="insight-item">
+                            <div class="insight-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="insight-content">
+                                <div class="insight-title">Average Payout</div>
+                                <div class="insight-value">$4,104.17</div>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <div class="insight-content">
+                                <div class="insight-title">Next Payout</div>
+                                <div class="insight-value">Dec 15, 2024</div>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="insight-content">
+                                <div class="insight-title">Top Earner</div>
+                                <div class="insight-value">Alex Johnson</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wallet Modal -->
+    <div class="modal" id="walletModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Connect Wallet</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="wallet-options">
+                    <button class="wallet-option" id="metamaskBtn">
+                        <i class="fab fa-ethereum"></i>
+                        <span>MetaMask</span>
+                    </button>
+                    <button class="wallet-option" id="walletConnectBtn">
+                        <i class="fas fa-wallet"></i>
+                        <span>WalletConnect</span>
+                    </button>
+                    <button class="wallet-option" id="coinbaseBtn">
+                        <i class="fab fa-bitcoin"></i>
+                        <span>Coinbase Wallet</span>
+                    </button>
+                </div>
+                <p class="wallet-note">Connect your wallet to manage team</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Member Modal (Hidden) -->
+    <div class="modal add-member-modal" id="addMemberModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Team Member</h3>
+                <button class="modal-close" id="closeAddModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addMemberForm">
+                    <div class="form-group">
+                        <label for="memberName">Full Name *</label>
+                        <input type="text" id="memberName" required placeholder="John Doe">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="memberRole">Role *</label>
+                            <select id="memberRole" required>
+                                <option value="">Select Role</option>
+                                <option value="developer">Developer</option>
+                                <option value="designer">Designer</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="operations">Operations</option>
+                                <option value="content">Content Creator</option>
+                                <option value="manager">Manager</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="memberShare">Share % *</label>
+                            <div class="input-with-suffix">
+                                <input type="number" id="memberShare" required min="0.1" max="100" step="0.1" placeholder="25.5">
+                                <span>%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="memberAddress">Wallet Address *</label>
+                        <input type="text" id="memberAddress" required placeholder="0x..." pattern="^0x[a-fA-F0-9]{40}$">
+                        <small class="form-hint">Enter valid Ethereum address</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="memberEmail">Email Address</label>
+                        <input type="email" id="memberEmail" placeholder="john@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="memberSplits">Assign to Splits</label>
+                        <select id="memberSplits" multiple style="height: 100px;">
+                            <option value="core">Core Team Split</option>
+                            <option value="marketing">Marketing Budget</option>
+                            <option value="content">Content Creator Pool</option>
+                            <option value="development">Development Fund</option>
+                            <option value="operations">Operations</option>
+                            <option value="bonus">Bonus Pool</option>
+                        </select>
+                        <small class="form-hint">Hold Ctrl/Cmd to select multiple</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelAddBtn">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Add Member
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/team.js"></script>
+</body>
+</html>

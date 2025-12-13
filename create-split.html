@@ -82,26 +82,35 @@
                             <i class="fas fa-coins"></i>
                             Payment Token
                         </label>
-                        <div class="token-selector">
-                            <div class="token-option active" data-token="USDC">
-                                <div class="token-icon">USDC</div>
-                                <span>USDC</span>
-                            </div>
-                            <div class="token-option" data-token="USDT">
-                                <div class="token-icon">USDT</div>
-                                <span>USDT</span>
-                            </div>
-                            <div class="token-option" data-token="DAI">
-                                <div class="token-icon">DAI</div>
-                                <span>DAI</span>
-                            </div>
-                            <div class="token-option" data-token="custom">
-                                <div class="token-icon">
-                                    <i class="fas fa-edit"></i>
-                                </div>
-                                <span>Custom</span>
-                            </div>
-                        </div>
+                         <div class="token-option active"
+     data-token="0x20c0000000000000000000000000000000000001">
+    <div class="token-icon">AlphaUSD</div>
+    <span>AlphaUsd</span>
+</div>
+
+<div class="token-option"
+     data-token="0x20c0000000000000000000000000000000000002">
+    <div class="token-icon">Betausd</div>
+    <span>BetaUsd</span>
+</div>
+
+<div class="token-option"
+     data-token="0x20c0000000000000000000000000000000000003">
+    <div class="token-icon">ThetaUsd</div>
+    <span>ThetaUsd</span>
+</div>
+
+<div class="token-option" data-token="custom">
+    <div class="token-icon">
+        <i class="fas fa-edit"></i>
+    </div>
+    <span>Custom</span>
+</div>
+<input
+  type="text"
+  id="customTokenAddress"
+  placeholder="0x..."
+>
                         <div class="form-hint">Select the token you'll be receiving payments in</div>
                     </div>
                     
@@ -358,7 +367,8 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script src="js/script.js"></script>
     <script src="js/script.js"></script>
     <script src="js/create-split.js"></script>
 </body>

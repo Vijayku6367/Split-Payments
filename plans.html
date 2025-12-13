@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Plans | SplitPay</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/plans.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="background-elements">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="light-beam"></div>
+        <div class="smoke"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-share-alt"></i>
+                </div>
+                <span class="logo-text">Split<span class="logo-accent">Pay</span></span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="create-split.html" class="nav-link">Create Split</a>
+                <a href="transactions.html" class="nav-link">Transactions</a>
+                <a href="team.html" class="nav-link">Team</a>
+                <a href="plans.html" class="nav-link active">Plans</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="wallet-btn" id="connectWallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                    <div class="wallet-glow"></div>
+                </button>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Plans Page -->
+    <div class="plans-page">
+        <!-- Header -->
+        <div class="plans-header">
+            <h1 class="plans-title">Simple, Transparent Pricing</h1>
+            <p class="plans-subtitle">Choose the perfect plan for your team. Start free, upgrade anytime.</p>
+            
+            <!-- Billing Toggle -->
+            <div class="billing-toggle-container">
+                <span class="billing-label active">Monthly Billing</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="billingToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="billing-label">Yearly Billing</span>
+                <div class="savings-badge" id="savingsBadge">
+                    <i class="fas fa-trophy"></i>
+                    <span>Save 20% with yearly billing</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plans -->
+        <div class="plans-container" id="plansContainer">
+            <!-- Plans will be loaded here -->
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="comparison-section">
+            <h2 class="comparison-title">Feature Comparison</h2>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Features</th>
+                            <th>Starter</th>
+                            <th>Professional</th>
+                            <th>Business</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">Team Members</td>
+                            <td class="feature-value">Up to 5</td>
+                            <td class="feature-value">Up to 20</td>
+                            <td class="feature-value">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Active Splits</td>
+                            <td class="feature-value">3</td>
+                            <td class="feature-value">15</td>
+                            <td class="feature-value">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Multi-Token Support</td>
+                            <td class="feature-value included">✓ USDC/USDT</td>
+                            <td class="feature-value included">✓ All ERC20</td>
+                            <td class="feature-value included">✓ All Tokens</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Auto Distribution</td>
+                            <td class="feature-value included">✓</td>
+                            <td class="feature-value included">✓</td>
+                            <td class="feature-value included">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Scheduled Payments</td>
+                            <td class="feature-value not-included">✗</td>
+                            <td class="feature-value included">✓</td>
+                            <td class="feature-value included">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Advanced Analytics</td>
+                            <td class="feature-value not-included">✗</td>
+                            <td class="feature-value included">✓</td>
+                            <td class="feature-value included">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Priority Support</td>
+                            <td class="feature-value not-included">✗</td>
+                            <td class="feature-value included">✓</td>
+                            <td class="feature-value included">✓ 24/7</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">API Access</td>
+                            <td class="feature-value not-included">✗</td>
+                            <td class="feature-value not-included">✗</td>
+                            <td class="feature-value included">✓ Full API</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Custom Integrations</td>
+                            <td class="feature-value not-included">✗</td>
+                            <td class="feature-value not-included">✗</td>
+                            <td class="feature-value included">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Audit Logs</td>
+                            <td class="feature-value not-included">✗</td>
+                            <td class="feature-value included">✓ 30 days</td>
+                            <td class="feature-value included">✓ 1 year</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-section">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Can I switch plans later?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>Yes! You can upgrade or downgrade your plan at any time. When you upgrade, you'll be charged the prorated difference. When you downgrade, changes take effect at your next billing cycle.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Is there a free trial?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>Yes! All paid plans come with a 14-day free trial. No credit card required. You get access to all features during the trial period.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>What payment methods do you accept?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>We accept crypto payments (USDC/USDT on Tempo) and credit/debit cards. Business plans also support invoice payments.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Do you offer discounts for non-profits?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>Yes! We offer 50% off for registered non-profit organizations. Contact our sales team with your documentation.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Can I cancel anytime?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>Absolutely. You can cancel your subscription at any time. There are no cancellation fees or long-term contracts.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Is my data secure?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>Yes! All transactions are on-chain and immutable. We use enterprise-grade encryption and never store your private keys.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2>Need a custom plan?</h2>
+            <p>Contact our sales team for enterprise solutions, custom integrations, and volume discounts.</p>
+            <div class="cta-buttons">
+                <button class="btn-secondary" id="contactSalesBtn">
+                    <i class="fas fa-headset"></i>
+                    Contact Sales
+                </button>
+                <button class="btn-primary" id="customPlanBtn">
+                    <i class="fas fa-cog"></i>
+                    Request Custom Plan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wallet Modal -->
+    <div class="modal" id="walletModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Connect Wallet</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="wallet-options">
+                    <button class="wallet-option" id="metamaskBtn">
+                        <i class="fab fa-ethereum"></i>
+                        <span>MetaMask</span>
+                    </button>
+                    <button class="wallet-option" id="walletConnectBtn">
+                        <i class="fas fa-wallet"></i>
+                        <span>WalletConnect</span>
+                    </button>
+                    <button class="wallet-option" id="coinbaseBtn">
+                        <i class="fab fa-bitcoin"></i>
+                        <span>Coinbase Wallet</span>
+                    </button>
+                </div>
+                <p class="wallet-note">Connect your wallet to subscribe</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal (Hidden) -->
+    <div class="modal payment-modal" id="paymentModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="paymentModalTitle">Subscribe to Plan</h3>
+                <button class="modal-close" id="closePaymentModal">&times;</button>
+            </div>
+            <div class="modal-body" id="paymentModalContent">
+                <!-- Payment content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal (Hidden) -->
+    <div class="modal contact-modal" id="contactModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Contact Sales</h3>
+                <button class="modal-close" id="closeContactModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="contact-form" id="contactFormContent">
+                    <!-- Contact form will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/plans.js"></script>
+</body>
+</html>
