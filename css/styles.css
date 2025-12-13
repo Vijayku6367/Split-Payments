@@ -1887,3 +1887,30 @@ body {
         justify-content: space-between;
     }
 }
+/* Mobile Menu Fix */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--secondary-bg);
+        flex-direction: column;
+        padding: 1rem;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .nav-menu.active {
+        display: flex !important;
+    }
+    
+    .mobile-menu-btn {
+        display: block !important;
+    }
+}
+
+/* Button Clickable Banaye */
+.btn-primary, .btn-secondary, .wallet-btn {
+    cursor: pointer !important;
+}

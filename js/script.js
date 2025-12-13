@@ -18,19 +18,190 @@ const TEMPO_CONFIG = {
 
 // Contract ABIs (Simplified for demo)
 const CONTRACT_ABIS = {
-    SplitFactory: [
-        "function createSplitter(string name, address token, address[] members, uint256[] shares, bool autoDistribute) returns (address)",
-        "function getUserSplitters(address user) view returns (address[])",
-        "event SplitterCreated(address indexed creator, address splitterAddress, string name, address token, address[] members, uint256[] shares)"
+Splitter: [
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_owner", "type": "address" },
+      { "internalType": "string", "name": "_name", "type": "string" },
+      { "internalType": "address", "name": "_token", "type": "address" },
+      { "internalType": "address[]", "name": "_members", "type": "address[]" },
+      { "internalType": "uint256[]", "name": "_shares", "type": "uint256[]" },
+      { "internalType": "bool", "name": "_autoDistribute", "type": "bool" }
     ],
-    Splitter: [
-        "function receivePayment(uint256 amount)",
-        "function distribute()",
-        "function getMembers() view returns (address[], uint256[])",
-        "function getPaymentHistory() view returns ((uint256 amount, address payer, uint256 timestamp, bool distributed)[])",
-        "event PaymentReceived(address indexed payer, uint256 amount, uint256 timestamp)",
-        "event DistributionCompleted(address indexed member, uint256 amount, uint256 timestamp)"
-    ]
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "member", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+    ],
+    "name": "DistributionCompleted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "payer", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+    ],
+    "name": "PaymentReceived",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "address[]", "name": "newMembers", "type": "address[]" },
+      { "indexed": false, "internalType": "uint256[]", "name": "newShares", "type": "uint256[]" },
+      { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+    ],
+    "name": "SharesUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "autoDistribute",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "distribute",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getContractBalance",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getMembers",
+    "outputs": [
+      { "internalType": "address[]", "name": "", "type": "address[]" },
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPaymentHistory",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "amount", "type": "uint256" },
+          { "internalType": "address", "name": "payer", "type": "address" },
+          { "internalType": "uint256", "name": "timestamp", "type": "uint256" },
+          { "internalType": "bool", "name": "distributed", "type": "bool" }
+        ],
+        "internalType": "struct Splitter.Payment[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }],
+    "name": "receivePayment",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address[]", "name": "newMembers", "type": "address[]" },
+      { "internalType": "uint256[]", "name": "newShares", "type": "uint256[]" }
+    ],
+    "name": "updateShares",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+ ],
+  SplitFactory: [
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "creator", "type": "address" },
+      { "indexed": false, "internalType": "address", "name": "splitterAddress", "type": "address" },
+      { "indexed": false, "internalType": "string", "name": "name", "type": "string" },
+      { "indexed": false, "internalType": "address", "name": "token", "type": "address" },
+      { "indexed": false, "internalType": "address[]", "name": "members", "type": "address[]" },
+      { "indexed": false, "internalType": "uint256[]", "name": "shares", "type": "uint256[]" }
+    ],
+    "name": "SplitterCreated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "name": "allSplitters",
+    "outputs": [
+      { "internalType": "address", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "address", "name": "token", "type": "address" },
+      { "internalType": "address[]", "name": "members", "type": "address[]" },
+      { "internalType": "uint256[]", "name": "shares", "type": "uint256[]" },
+      { "internalType": "bool", "name": "autoDistribute", "type": "bool" }
+    ],
+    "name": "createSplitter",
+    "outputs": [
+      { "internalType": "address", "name": "", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllSplitters",
+    "outputs": [
+      { "internalType": "address[]", "name": "", "type": "address[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" }
+    ],
+    "name": "getUserSplitters",
+    "outputs": [
+      { "internalType": "address[]", "name": "", "type": "address[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "name": "userSplitters",
+    "outputs": [
+      { "internalType": "address", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+],
 };
 
 // Global State
@@ -43,6 +214,28 @@ let state = {
     currentPage: 'home'
 };
 
+// Line 15 ke baad ye add karo:
+const elements = {
+    connectWallet: document.getElementById('connectWallet'),
+    walletModal: document.getElementById('walletModal'),
+    closeModal: document.getElementById('closeModal'),
+    metamaskBtn: document.getElementById('metamaskBtn'),
+    walletConnectBtn: document.getElementById('walletConnectBtn'),
+    coinbaseBtn: document.getElementById('coinbaseBtn'),
+    mobileMenuBtn: document.getElementById('mobileMenuBtn'),
+    navMenu: document.getElementById('navMenu'),
+    createSplitBtn: document.getElementById('createSplitBtn'),
+    watchDemo: document.getElementById('watchDemo'),
+    getStartedBtn: document.getElementById('getStartedBtn'),
+    donutChart: document.getElementById('donutChart')
+};
+
+// Agar koi element nahi hai toh error handle karo
+Object.keys(elements).forEach(key => {
+    if (!elements[key] && key !== 'donutChart') {
+        console.warn(`Element ${key} not found`);
+    }
+});
 // DOM Elements
 const elements = {
     connectWallet: document.getElementById('connectWallet'),
